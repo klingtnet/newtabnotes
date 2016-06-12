@@ -1,10 +1,10 @@
 {
-	"manifest_version": 2,
-  "name": "newtabnotes",
-  "version": "0.1",
-  "description": "Replaces the new-tab page with a text editor.",
-	"author": "Andreas Linz",
-	"chrome_url_overrides": {
-		"newtab": "index.html"
-	}
+    "manifest_version": 2,
+    "name": "newtabnotes",
+    "version": "0.1",
+    "description": "Replaces the new-tab page with a text editor.",
+    "author": "Andreas Linz",
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    }
 }
