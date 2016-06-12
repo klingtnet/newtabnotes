@@ -14,6 +14,13 @@ Please enter *your* **Markdown** text;
 `;
 
 var editor;
+var editorId = "newtabnotes-editor";
+var editorData = {
+  "content": "",
+  "scheme": "github",
+  "syntax": "markdown",
+  "fontSize": "16"
+};
 
 (function() {
 var editorId = "newtabnotes-editor";
