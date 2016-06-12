@@ -1,5 +1,13 @@
 # newtabnotes
 
+![screenshot](screenshot.png)
+
 `newtabnotes` is a chrome extension that overwrites the default newtab page with an editor window.
 
-![screenshot](screenshot.png)
+## TODO
+
+- add settings bar with the following options:
+	- color-scheme
+	- font-size
+	- syntax
+- use local-storage to save editor content
