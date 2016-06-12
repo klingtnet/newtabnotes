@@ -1,0 +1,3 @@
+[submodule "newtabnotes/ace-builds"]
+	path = newtabnotes/ace-builds
+	url = https://github.com/ajaxorg/ace-builds.git

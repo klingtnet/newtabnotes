@@ -1,0 +1,26 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 18px;
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  src: url('FiraCode_1.102/FiraCode-Regular.otf') format('opentype');
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'Fira Code';
+  src: url('FiraCode_1.102/FiraCode-Bold.otf') format('opentype');
+  font-weight: bold;
+}
+
+#newtabnotes-editor {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Fira Code", "Fira Mono", monospace;
+  font-variant-ligatures: common-ligatures;
+  text-rendering: optimizeLegibility;
+  font-size: 1em;
+}
