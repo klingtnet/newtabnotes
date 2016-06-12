@@ -6,8 +6,8 @@
 
 ## TODO
 
-- add settings bar with the following options:
+- [ ] add settings bar with the following options:
 	- color-scheme
 	- font-size
 	- syntax
-- use local-storage to save editor content
+- [x] use local-storage to save editor content
