@@ -4,10 +4,8 @@
 
 `newtabnotes` is a chrome extension that overwrites the default newtab page with an editor window.
 
-## TODO
+## Features
 
-- [ ] add settings bar with the following options:
-	- color-scheme
-	- font-size
-	- syntax
-- [x] use local-storage to save editor content
+- automatic synchronization of your notes with chrome sync
+- configurable color scheme and font-size
+- save the editor content into a markdown file by pressing `Ctrl+S`
