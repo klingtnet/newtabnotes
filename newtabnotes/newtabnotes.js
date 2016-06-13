@@ -1,75 +1,106 @@
 "use strict";
 
-var defaultText = `# newtabnotes
-
-Please enter *your* **Markdown** text;
-
-- It is
-- *easy*
-- trust me!
-
--> Ligatures are supported as well!
-
-1 != 2
-`;
-
 var editor;
 var editorId = "newtabnotes-editor";
-var editorData = {
+var editorState = {
   "content": "",
   "scheme": "github",
   "syntax": "markdown",
-  "fontSize": "16"
+  "fontSize": 12,
+  "showLineNumbers": false,
 };
 
+// init function
 (function() {
+  document.getElementById("scheme-selector").onchange = schemeSelector;
+  document.getElementById("line-numbers").onchange = lineNumbers;
+  document.getElementById("font-size").onchange = fontSize;
   editor = ace.edit(editorId);
   loadFromSync();
+  updateView(editorState);
   editor.getSession().setUseWrapMode(true);
   editor.setShowPrintMargin(false);
   editor.getSession().on('change', changeListener);
 })();
 
+function schemeSelector() {
+  if (this.value !== undefined) {
+    var scheme = this.value;
+    editor.setTheme("ace/theme/"+scheme);
+    editorState.scheme = scheme;
+    chrome.storage.sync.set({"editorState": editorState}, function() {});
+  }
+}
+
+function lineNumbers() {
+  editorState.showLineNumbers = this.checked;
+  console.log(editorState);
+  updateView(editorState);
+  storeState();
+}
+
+function fontSize() {
+  editorState.fontSize = this.value;
+  updateView(editorState);
+  storeState();
+}
+
 function changeListener(event) {
-  editorData.content = editor.getValue();
+  editorState.content = editor.getValue();
   // check if only one instance of the newtab page is open,
   // otherwise disable save and show warning banner
-  chrome.storage.sync.set({"editorData": editorData}, function() {});
+  storeState();
+}
+
+function storeState() {
+  chrome.storage.sync.set({"editorState": editorState}, function() {});
 }
 
 function loadFromSync() {
-  chrome.storage.sync.get("editorData", function(data) {
-    if (data.hasOwnProperty("editorData")) {
-      updateEditorData(data.editorData);
-      updateEditor(editorData);
+  chrome.storage.sync.get("editorState", function(data) {
+    if (data.hasOwnProperty("editorState")) {
+      updateState(data.editorState);
+      updateView(data.editorState);
     }
   });
 }
 
-function updateEditorData(data) {
+function updateState(data) {
   if (data.hasOwnProperty('content')) {
-    editorData.content = data.content;
+    editorState.content = data.content;
   }
   if (data.hasOwnProperty('scheme')) {
-    editorData.scheme = data.scheme;
+    editorState.scheme = data.scheme;
   }
   if (data.hasOwnProperty('syntax')) {
-    editorData.syntax = data.syntax;
+    editorState.syntax = data.syntax;
   }
   if (data.hasOwnProperty('fontSize')) {
-    editorData.fontSize = data.fontSize;
+    editorState.fontSize = data.fontSize;
+  }
+  if (data.hasOwnProperty('showLineNumbers')) {
+    editorState.showLineNumbers = data.showLineNumbers;
   }
 }
 
-function updateEditor(data) {
+function updateView(data) {
+  var node = document.getElementById("scheme-selector");
+  var idx = 0;
+  for (; idx < node.options.length; idx++) {
+    if (node.options[idx].value === data.scheme) {
+      break;
+    }
+  }
+  node.selectedIndex = idx;
   editor.setValue(data.content);
   editor.session.selection.clearSelection();
   editor.setTheme("ace/theme/"+data.scheme);
   editor.getSession().setMode("ace/mode/"+data.syntax);
-  var node = document.getElementById(editorId);
-  if (node !== undefined) {
-    node.style.fontSize = data.content.fontSize+'px';
-  }
+  document.getElementById('font-size').value = data.fontSize;
+  document.getElementById(editorId).style.fontSize = data.fontSize+'px';
+  document.getElementById('line-numbers').checked = data.showLineNumbers;
+  editor.renderer.setOption('showLineNumbers', data.showLineNumbers);
+
 }
 
 window.onresize = function() {
