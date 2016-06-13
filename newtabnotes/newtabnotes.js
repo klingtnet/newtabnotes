@@ -21,6 +21,7 @@ var editorState = {
   editor.getSession().setUseWrapMode(true);
   editor.setShowPrintMargin(false);
   editor.getSession().on('change', changeListener);
+  document.addEventListener('keydown', ctrlS);
 })();
 
 function schemeSelector() {
@@ -105,4 +106,10 @@ function updateView(data) {
 
 window.onresize = function() {
   editor.resize();
+}
+
+function ctrlS() {
+  if (event.ctrlKey && event.key == "s") {
+    chrome.downloads.download({"url": "data:plain/text;base64,"+btoa(editorState.content), "filename": "notes.md"});
+  }
 }
